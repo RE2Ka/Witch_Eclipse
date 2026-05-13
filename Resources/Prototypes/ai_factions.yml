@@ -166,3 +166,21 @@
   # cause they are hostile to them
   - SimpleHostile
   - AllHostile
+
+# Lavaland mob faction to stop wildlife infighting.
+- type: npcFaction
+  id: Lavafauna
+  hostile:
+  - NanoTrasen
+  - Mouse
+  - Passive
+  - PetsNT
+  - SimpleHostile
+  - SimpleNeutral
+  - Syndicate
+  - Xeno
+  - Zombie
+  - Revolutionary
+  - Wizard
+  friendly:
+  - Dragon

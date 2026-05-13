@@ -108,3 +108,41 @@
 - type: tileAlias
   id: FloorOldConcreteOutsideSmooth
   target: FloorOldConcreteSmooth
+
+# Eclipse/Erida map compatibility
+
+- type: tileAlias
+  id: FloorDarkPavementAlt
+  target: FloorDarkPavement
+
+- type: tileAlias
+  id: FloorDarkPavementVerticalAlt
+  target: FloorDarkPavementVertical
+
+- type: tileAlias
+  id: FloorDarkHerringboneAlt
+  target: FloorDarkHerringbone
+
+- type: tileAlias
+  id: FloorSteelHerringboneAlt
+  target: FloorSteelHerringbone
+
+- type: tileAlias
+  id: FloorSteelPavementAlt
+  target: FloorSteelPavement
+
+- type: tileAlias
+  id: FloorSteelPavementVerticalAlt
+  target: FloorSteelPavementVertical
+
+- type: tileAlias
+  id: FloorWhiteHerringboneAlt
+  target: FloorWhiteHerringbone
+
+- type: tileAlias
+  id: FloorWhitePavementAlt
+  target: FloorWhitePavement
+
+- type: tileAlias
+  id: FloorWhitePavementVerticalAlt
+  target: FloorWhitePavementVertical

@@ -10,6 +10,12 @@ namespace Content.Shared.Weapons.Ranged.Upgrades.Components;
 public sealed partial class GunUpgradeDamageComponent : Component
 {
     /// <summary>
+    /// How much to multiply the projectile's final damage.
+    /// </summary>
+    [DataField]
+    public float Modifier = 1f;
+
+    /// <summary>
     /// Additional damage added onto the projectile's base damage.
     /// </summary>
     [DataField]

@@ -1,4 +1,4 @@
-using Content.Server._Erida.Botany.Systems;
+using Content.Server.Eclipse.Botany.Systems;
 using Content.Server.Botany.Systems;
 using Content.Shared.Botany.Components;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;

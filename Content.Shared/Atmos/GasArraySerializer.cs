@@ -34,7 +34,7 @@ public sealed class GasArraySerializer : ITypeSerializer<float[], SequenceDataNo
     {
         var list = instanceProvider != null ? instanceProvider() : new float[Atmospherics.AdjustedNumberOfGases];
 
-        for (var i = 0; i < node.Sequence.Count; i++)
+        for (var i = 0; i < node.Sequence.Count && i < list.Length; i++)
         {
             list[i] = serializationManager.Read<float>(node.Sequence[i], hookCtx, context);
         }

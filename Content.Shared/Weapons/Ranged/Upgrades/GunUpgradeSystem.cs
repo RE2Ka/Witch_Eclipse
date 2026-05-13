@@ -107,7 +107,10 @@ public sealed class GunUpgradeSystem : EntitySystem
         foreach (var (ammo, _) in args.Ammo)
         {
             if (TryComp<ProjectileComponent>(ammo, out var proj))
+            {
                 proj.Damage += ent.Comp.Damage;
+                proj.Damage *= ent.Comp.Modifier;
+            }
         }
     }
 

@@ -25,6 +25,9 @@ round_restart_time = 240
 [chat]
 max_announcement_length = 512
 
+[tts]
+enabled = true
+
 [server]
 rules_file = "CorvaxRuleset"
 

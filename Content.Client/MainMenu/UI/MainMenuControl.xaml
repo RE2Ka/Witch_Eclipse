@@ -16,7 +16,9 @@
                   StyleIdentifier="mainMenuVBox"
                   SeparationOverride="3">
         <TextureRect Name="Logo"
-                     Stretch="KeepCentered"/>
+                     SetSize="180 180"
+                     Margin="0 0 0 14"
+                     Stretch="KeepAspectCentered"/>
         <GridContainer Columns="2">
             <Label Text="{Loc 'main-menu-username-label'}" />
             <LineEdit Name="UsernameBox"

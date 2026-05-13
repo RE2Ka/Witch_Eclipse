@@ -20,6 +20,13 @@ public record struct FlashAttemptEvent(EntityUid Target, EntityUid? User, Entity
 [ByRefEvent]
 public record struct AfterFlashedEvent(EntityUid Target, EntityUid? User, EntityUid? Used, bool Melee);
 
+public sealed class FlashDurationMultiplierEvent : EntityEventArgs, IInventoryRelayEvent
+{
+    public float Multiplier = 1f;
+
+    public SlotFlags TargetSlots => SlotFlags.EYES | SlotFlags.HEAD | SlotFlags.MASK;
+}
+
 /// <summary>
 /// Raised once on the flash entity when it was used, regardless of the flashed status being applied or not.
 /// </summary>

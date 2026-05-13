@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Robust.Shared.Random;
 
 namespace Content.Server.Maps.NameGenerators;
 
@@ -12,6 +13,9 @@ public sealed partial class NanotrasenNameGenerator : StationNameGenerator
 
     public override string FormatName(string input)
     {
-        return "Eclipse_station";
+        var random = IoCManager.Resolve<IRobustRandom>();
+        var suffixCodes = new[] { "LV", "NX", "EV", "QT", "PR" };
+
+        return string.Format(input, $"NT{PrefixCreator}", $"{random.Pick(suffixCodes)}-{random.Next(0, 999):D3}");
     }
 }

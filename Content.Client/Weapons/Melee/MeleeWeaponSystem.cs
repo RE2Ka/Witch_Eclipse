@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Client.Gameplay;
+using Content.Shared._Goobstation.Weapons;
 using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
 using Content.Shared.Effects;
@@ -210,13 +211,16 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
     {
         var attackerPos = TransformSystem.GetMapCoordinates(attacker);
 
-        if (mousePos.MapId != attackerPos.MapId || (attackerPos.Position - mousePos.Position).Length() > meleeComponent.Range)
-            return;
-
         EntityUid? target = null;
 
         if (_stateManager.CurrentState is GameplayStateBase screen)
             target = screen.GetClickedEntity(mousePos);
+
+        var rangeEv = new GetLightAttackRangeEvent(target, attacker, meleeComponent.Range);
+        RaiseLocalEvent(weaponUid, ref rangeEv);
+
+        if (mousePos.MapId != attackerPos.MapId || (attackerPos.Position - mousePos.Position).Length() > rangeEv.Range)
+            return;
 
         // Don't light-attack if interaction will be handling this instead
         if (Interaction.CombatModeCanHandInteract(attacker, target))

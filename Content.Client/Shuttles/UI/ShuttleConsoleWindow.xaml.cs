@@ -32,6 +32,7 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         NavModeButton.OnPressed += NavPressed;
         MapModeButton.OnPressed += MapPressed;
         DockModeButton.OnPressed += DockPressed;
+        BeaconModeButton.OnPressed += BeaconPressed;
 
         // Modes are exclusive
         var group = new ButtonGroup();
@@ -39,6 +40,7 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         NavModeButton.Group = group;
         MapModeButton.Group = group;
         DockModeButton.Group = group;
+        BeaconModeButton.Group = group;
 
         NavModeButton.Pressed = true;
         SetupMode(_mode);
@@ -62,6 +64,11 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         {
             UndockRequest?.Invoke(entity);
         };
+
+        BeaconContainer.RequestBeaconFTL += (ent, angle) =>
+        {
+            RequestBeaconFTL?.Invoke(ent, angle);
+        };
     }
 
     private void ClearModes(ShuttleConsoleMode mode)
@@ -81,6 +88,11 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         {
             DockContainer.Visible = false;
         }
+
+        if (mode != ShuttleConsoleMode.Beacon)
+        {
+            BeaconContainer.Visible = false;
+        }
     }
 
     private void NavPressed(BaseButton.ButtonEventArgs obj)
@@ -98,6 +110,11 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         SwitchMode(ShuttleConsoleMode.Dock);
     }
 
+    private void BeaconPressed(BaseButton.ButtonEventArgs obj)
+    {
+        SwitchMode(ShuttleConsoleMode.Beacon);
+    }
+
     private void SetupMode(ShuttleConsoleMode mode)
     {
         switch (mode)
@@ -111,6 +128,9 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
                 break;
             case ShuttleConsoleMode.Dock:
                 DockContainer.Visible = true;
+                break;
+            case ShuttleConsoleMode.Beacon:
+                BeaconContainer.Visible = true;
                 break;
             default:
                 throw new NotImplementedException();
@@ -132,6 +152,7 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         Nav,
         Map,
         Dock,
+        Beacon,
     }
 
     public void UpdateState(EntityUid owner, ShuttleBoundUserInterfaceState cState)
@@ -145,5 +166,6 @@ public sealed partial class ShuttleConsoleWindow : FancyWindow,
         NavContainer.UpdateState(cState.NavState);
         MapContainer.UpdateState(cState.MapState);
         DockContainer.UpdateState(coordinates?.EntityId, cState.DockState);
+        BeaconContainer.UpdateState(cState.MapState);
     }
 }

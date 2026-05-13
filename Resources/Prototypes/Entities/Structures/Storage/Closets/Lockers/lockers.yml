@@ -60,6 +60,20 @@
   - type: AccessReader
     access: [["Salvage"]]
 
+- type: entity
+  id: LockerShaftMiner
+  parent: LockerBase
+  name: shaft miner's locker
+  description: Contains equipment useful for planet exploration.
+  components:
+  - type: Appearance
+  - type: EntityStorageVisuals
+    stateBaseClosed: mining
+    stateDoorOpen: mining_open
+    stateDoorClosed: mining_door
+  - type: AccessReader
+    access: [["Salvage"]]
+
 # Command
 - type: entity
   id: LockerCaptain
