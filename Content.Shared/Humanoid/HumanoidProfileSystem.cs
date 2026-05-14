@@ -38,6 +38,7 @@ public sealed class HumanoidProfileSystem : EntitySystem
         ent.Comp.Gender = profile.Gender;
         ent.Comp.Age = profile.Age;
         ent.Comp.Species = profile.Species;
+        ent.Comp.CustomSpecies = profile.CustomSpecies;
         ent.Comp.Sex = profile.Sex;
         // Corvax-TTS-start
         ent.Comp.Voice = profile.Voice;
@@ -60,7 +61,9 @@ public sealed class HumanoidProfileSystem : EntitySystem
     private void OnExamined(Entity<HumanoidProfileComponent> ent, ref ExaminedEvent args)
     {
         var identity = Identity.Entity(ent, EntityManager);
-        var species = GetSpeciesRepresentation(ent.Comp.Species).ToLower();
+        var species = string.IsNullOrEmpty(ent.Comp.CustomSpecies)
+            ? GetSpeciesRepresentation(ent.Comp.Species).ToLower()
+            : ent.Comp.CustomSpecies;
         var age = GetAgeRepresentation(ent.Comp.Species, ent.Comp.Age);
 
         args.PushText(Loc.GetString("humanoid-appearance-component-examine", ("user", identity), ("age", age), ("species", species)));

@@ -26,6 +26,9 @@ public sealed partial class HumanoidProfileComponent : Component
     [DataField, AutoNetworkedField]
     public ProtoId<SpeciesPrototype> Species = HumanoidCharacterProfile.DefaultSpecies;
 
+    [DataField, AutoNetworkedField]
+    public string CustomSpecies = string.Empty;
+
     // Corvax-TTS-Start
     [DataField("voice")]
     public ProtoId<TTSVoicePrototype> Voice { get; set; } = HumanoidProfileSystem.DefaultVoice;

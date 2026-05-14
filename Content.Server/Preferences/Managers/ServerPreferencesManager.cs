@@ -179,6 +179,7 @@ namespace Content.Server.Preferences.Managers
                 profile.CharacterName,
                 profile.FlavorText,
                 species,
+                profile.CustomSpecies,
                 voice, // Corvax-TTS
                 profile.Age,
                 sex,

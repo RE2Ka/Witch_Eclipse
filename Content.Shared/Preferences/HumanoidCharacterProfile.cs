@@ -82,6 +82,9 @@ namespace Content.Shared.Preferences
         [DataField]
         public ProtoId<SpeciesPrototype> Species { get; set; } = DefaultSpecies;
 
+        [DataField]
+        public string CustomSpecies { get; set; } = string.Empty;
+
         [DataField] //Corvax-TTS
         public string Voice { get; set; } = HumanoidProfileSystem.DefaultVoice;
 
@@ -132,6 +135,7 @@ namespace Content.Shared.Preferences
             string name,
             string flavortext,
             string species,
+            string customspecies,
             string voice, // Corvax-TTS
             int age,
             Sex sex,
@@ -147,6 +151,7 @@ namespace Content.Shared.Preferences
             Name = name;
             FlavorText = flavortext;
             Species = species;
+            CustomSpecies = customspecies;
             Voice = voice; // Corvax-TTS
             Age = age;
             Sex = sex;
@@ -179,6 +184,7 @@ namespace Content.Shared.Preferences
             : this(other.Name,
                 other.FlavorText,
                 other.Species,
+                other.CustomSpecies,
                 other.Voice,
                 other.Age,
                 other.Sex,
@@ -312,6 +318,11 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithSpecies(string species)
         {
             return new(this) { Species = species };
+        }
+
+        public HumanoidCharacterProfile WithCustomSpecies(string customspecies)
+        {
+            return new(this) { CustomSpecies = customspecies };
         }
 
         // Corvax-TTS-Start
@@ -489,6 +500,7 @@ namespace Content.Shared.Preferences
             if (Sex != other.Sex) return false;
             if (Gender != other.Gender) return false;
             if (Species != other.Species) return false;
+            if (CustomSpecies != other.CustomSpecies) return false;
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
             if (!_jobPriorities.SequenceEqual(other._jobPriorities)) return false;
@@ -585,6 +597,11 @@ namespace Content.Shared.Preferences
                 flavortext = FormattedMessage.RemoveMarkupOrThrow(FlavorText);
             }
 
+            var customSpecies = FormattedMessage.RemoveMarkupOrThrow(CustomSpecies).Trim();
+            var customSpeciesMaxLength = configManager.GetCVar(CCVars.MaxCustomSpeciesLength);
+            if (customSpecies.Length > customSpeciesMaxLength)
+                customSpecies = customSpecies[..customSpeciesMaxLength];
+
             var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex, sponsorPrototypes);
 
             var prefsUnavailableMode = PreferenceUnavailable switch
@@ -633,6 +650,7 @@ namespace Content.Shared.Preferences
 
             Name = name;
             FlavorText = flavortext;
+            CustomSpecies = customSpecies;
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -767,6 +785,7 @@ namespace Content.Shared.Preferences
             hashCode.Add(Name);
             hashCode.Add(FlavorText);
             hashCode.Add(Species);
+            hashCode.Add(CustomSpecies);
             hashCode.Add(Age);
             hashCode.Add((int)Sex);
             hashCode.Add((int)Gender);

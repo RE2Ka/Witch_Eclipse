@@ -18,6 +18,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 using Direction = Robust.Shared.Maths.Direction;
 
 namespace Content.Client.Lobby.UI
@@ -40,6 +41,7 @@ namespace Content.Client.Lobby.UI
 
         // CCvar.
         private int _maxNameLength;
+        private int _maxCustomSpeciesLength;
 
         /// <summary>
         /// If we're attempting to save.
@@ -104,6 +106,7 @@ namespace Content.Client.Lobby.UI
             _sprite = _entManager.System<SpriteSystem>();
 
             _maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
+            _maxCustomSpeciesLength = _cfgManager.GetCVar(CCVars.MaxCustomSpeciesLength);
             _allowFlavorText = _cfgManager.GetCVar(CCVars.FlavorText);
 
             Markings.SetModel(_markingsModel);
@@ -198,6 +201,20 @@ namespace Content.Client.Lobby.UI
                 SpeciesButton.SelectId(args.Id);
                 SetSpecies(_species[args.Id].ID);
                 OnSkinColorOnValueChanged();
+            };
+
+            IsCustomSpecies.OnPressed += _ =>
+            {
+                CustomSpeciesContainer.Visible = IsCustomSpecies.Pressed;
+                if (!IsCustomSpecies.Pressed)
+                    SetCustomSpecies(string.Empty);
+            };
+
+            CustomSpeciesEdit.IsValid = args => args.Length <= _maxCustomSpeciesLength;
+            CustomSpeciesEdit.OnTextChanged += args =>
+            {
+                var formattedMessage = FormattedMessage.RemoveMarkupPermissive(args.Text);
+                SetCustomSpecies(formattedMessage);
             };
 
             #region Skin
@@ -377,6 +394,7 @@ namespace Content.Client.Lobby.UI
             UpdateSkinColor();
             UpdateSpawnPriorityControls();
             UpdateAgeEdit();
+            UpdateCustomSpeciesEdit();
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();

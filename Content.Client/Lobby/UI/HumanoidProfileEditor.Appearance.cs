@@ -197,6 +197,25 @@ public sealed partial class HumanoidProfileEditor
         ReloadPreview();
     }
 
+    private void SetCustomSpecies(string newSpecies)
+    {
+        Profile = Profile?.WithCustomSpecies(newSpecies);
+        SetDirty();
+    }
+
+    private void UpdateCustomSpeciesEdit()
+    {
+        IsCustomSpecies.Pressed = false;
+        CustomSpeciesContainer.Visible = false;
+        CustomSpeciesEdit.Text = Profile?.CustomSpecies ?? string.Empty;
+
+        if (string.IsNullOrEmpty(Profile?.CustomSpecies))
+            return;
+
+        IsCustomSpecies.Pressed = true;
+        CustomSpeciesContainer.Visible = true;
+    }
+
     private void SetAge(int newAge)
     {
         Profile = Profile?.WithAge(newAge);
