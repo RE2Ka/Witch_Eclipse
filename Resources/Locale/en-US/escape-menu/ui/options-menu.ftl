@@ -150,6 +150,10 @@ ui-options-function-camera-reset = Reset
 ui-options-function-zoom-in = Zoom in
 ui-options-function-zoom-out = Zoom out
 ui-options-function-reset-zoom = Reset zoom
+ui-options-function-layered-z-move-up = Move one layer up
+ui-options-function-layered-z-move-down = Move one layer down
+ui-options-function-layered-zmove-up = Move one layer up
+ui-options-function-layered-zmove-down = Move one layer down
 
 ui-options-function-use = Use
 ui-options-function-use-secondary = Use secondary
