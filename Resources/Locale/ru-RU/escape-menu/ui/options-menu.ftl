@@ -150,6 +150,10 @@ ui-options-function-camera-reset = Сбросить камеру
 ui-options-function-zoom-in = Приблизить
 ui-options-function-zoom-out = Отдалить
 ui-options-function-reset-zoom = Сбросить
+ui-options-function-layered-z-move-up = Перейти на слой выше
+ui-options-function-layered-z-move-down = Перейти на слой ниже
+ui-options-function-layered-zmove-up = Перейти на слой выше
+ui-options-function-layered-zmove-down = Перейти на слой ниже
 
 ui-options-function-use = Использовать
 ui-options-function-use-secondary = Использовать вторично
