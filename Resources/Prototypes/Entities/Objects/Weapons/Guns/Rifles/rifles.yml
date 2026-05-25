@@ -238,8 +238,9 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/estocshot.ogg
     shotsPerBurst: 3
-    selectedMode: Burst
+    selectedMode: FullAuto
     availableModes:
+    - FullAuto
     - Burst
     - SemiAuto
     burstFireRate: 14
