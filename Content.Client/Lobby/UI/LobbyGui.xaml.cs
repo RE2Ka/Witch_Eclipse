@@ -140,25 +140,29 @@ namespace Content.Client.Lobby.UI
                     "Новые витрины, наборы косметики и редкие предметы.",
                     "Скоро",
                     "Июнь 2026",
-                    "/Textures/Interface/VerbIcons/outfit.svg.192dpi.png"),
+                    "/Textures/Interface/VerbIcons/outfit.svg.192dpi.png",
+                    false),
                 new RoadmapEntry(
                     "Профиль игрока",
                     "Расширенная страница аккаунта с аватаром, статистикой и прогрессом.",
                     "В разработке",
                     null,
-                    "/Textures/Interface/VerbIcons/group.svg.192dpi.png"),
+                    "/Textures/Interface/VerbIcons/group.svg.192dpi.png",
+                    false),
                 new RoadmapEntry(
                     "Ранги и награды",
                     "Система заслуг, ранги службы и уникальные награды.",
                     "Планируется",
                     "Август 2026",
-                    "/Textures/Interface/examine-star.png"),
+                    "/Textures/Interface/examine-star.png",
+                    false),
                 new RoadmapEntry(
                     "Новые режимы и ивенты",
                     "Сезонные события, особые миссии и развитие контента станции.",
                     "Долгосрочно",
                     null,
-                    "/Textures/Interface/VerbIcons/clock.svg.192dpi.png"),
+                    "/Textures/Interface/VerbIcons/clock.svg.192dpi.png",
+                    false),
             ];
 
             ApplyLobbyChatStyle();
@@ -385,7 +389,7 @@ namespace Content.Client.Lobby.UI
 
             for (var i = 0; i < _roadmapEntries.Length; i++)
             {
-                RoadmapProgressDots.AddChild(BuildRoadmapDot(i == 0));
+                RoadmapProgressDots.AddChild(BuildRoadmapDot(_roadmapEntries[i].Completed));
                 RoadmapEntries.AddChild(BuildRoadmapEntry(_roadmapEntries[i], i + 1));
             }
         }
@@ -416,7 +420,12 @@ namespace Content.Client.Lobby.UI
             {
                 HorizontalExpand = true,
                 MinSize = new Vector2(0f, 112f),
-                PanelOverride = StorePanel("#070300D8", "#A85E1280", 1, 24, 18),
+                PanelOverride = StorePanel(
+                    entry.Completed ? "#061307D8" : "#070300D8",
+                    entry.Completed ? "#4BA86090" : "#A85E1280",
+                    1,
+                    24,
+                    18),
             };
 
             var root = new BoxContainer
@@ -495,7 +504,12 @@ namespace Content.Client.Lobby.UI
             {
                 MinSize = new Vector2(178f, 48f),
                 VerticalAlignment = VAlignment.Center,
-                PanelOverride = StorePanel("#070300E8", "#F0A51390", 1, 12, 8),
+                PanelOverride = StorePanel(
+                    entry.Completed ? "#061307E8" : "#070300E8",
+                    entry.Completed ? "#4BA860A0" : "#F0A51390",
+                    1,
+                    12,
+                    8),
             };
 
             var row = new BoxContainer
@@ -509,13 +523,13 @@ namespace Content.Client.Lobby.UI
 
             row.AddChild(new Label
             {
-                Text = entry.Date is null ? "⚙" : "▣",
+                Text = entry.Completed ? "✓" : entry.Date is null ? "⚙" : "▣",
                 StyleIdentifier = MainMenuControl.StyleIdentifierGoldSmall,
                 VAlign = Label.VAlignMode.Center,
             });
             row.AddChild(new Label
             {
-                Text = entry.Date ?? entry.Status,
+                Text = entry.Completed ? "Готово" : entry.Date ?? entry.Status,
                 StyleIdentifier = MainMenuControl.StyleIdentifierGoldSmall,
                 VAlign = Label.VAlignMode.Center,
                 ClipText = true,
@@ -922,7 +936,8 @@ namespace Content.Client.Lobby.UI
             string Description,
             string Status,
             string? Date,
-            string IconTexturePath);
+            string IconTexturePath,
+            bool Completed);
 
         private sealed class EclipseNewsEntry
         {
