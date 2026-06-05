@@ -29,7 +29,6 @@ using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
-using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Server._Eclipse.ProtoCore;
@@ -48,7 +47,6 @@ public sealed class ProtoCoreSystem : GameRuleSystem<AshLegionRuleComponent>
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedToolSystem _tool = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
 
