@@ -10,6 +10,7 @@
     drawdepth: SmallObjects
     layers:
     - state: icon
+      map: [ "enum.PhotocopierVisuals.VisualState" ]
   - type: Transform #Backmen-edit
     noRot: false
   - type: Icon
@@ -33,6 +34,27 @@
         - MachineLayer
   - type: ApcPowerReceiver
     powerLoad: 250
+  - type: ActivatableUI
+    key: enum.PhotocopierUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: UserInterface
+    interfaces:
+      enum.PhotocopierUiKey.Key:
+        type: PhotocopierBoundUi
+  - type: Photocopier
+    paperSlot:
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      whitelist:
+        components:
+          - Paper
+    photocopierType: Default
+  - type: GenericVisualizer
+    visuals:
+      enum.PhotocopierVisuals.VisualState:
+        base:
+          Normal: { state: icon }
+          Scanning: { state: scanning }
+          Printing: { state: printing }
   - type: ItemSlots
   - type: ContainerContainer
     containers:
@@ -47,12 +69,30 @@
   description: ЭИ закупило их чтобы сэкономить на ручках для юридического отдела.
   suffix: Командование
 
+  components:
+  - type: Photocopier
+    paperSlot:
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      whitelist:
+        components:
+          - Paper
+    photocopierType: Command
+
 - type: entity
   parent: PhotocopierBase
   id: PhotocopierCentcomm
   name: копировальный аппарат Эйдосской империи
   description: От этого копировального аппарата веет понижением зарплаты станции.
   suffix: Эйдосская империя
+
+  components:
+  - type: Photocopier
+    paperSlot:
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      whitelist:
+        components:
+          - Paper
+    photocopierType: Centcomm
 
 - type: entity
   parent: PhotocopierBase
@@ -61,12 +101,30 @@
   description: Скорее всего он был украден со станции NanoTrasen.
   suffix: Syndicate
 
+  components:
+  - type: Photocopier
+    paperSlot:
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      whitelist:
+        components:
+          - Paper
+    photocopierType: Syndicate
+
 - type: entity
   parent: PhotocopierBase
   id: PhotocopierNukeops
   name: копировальный аппарат ядерных оперативников
   description: Скорее всего он был украден со станции NanoTrasen.
   suffix: Ядерные оперативники
+
+  components:
+  - type: Photocopier
+    paperSlot:
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      whitelist:
+        components:
+          - Paper
+    photocopierType: Nukeops
 
 - type: entity
   parent: BaseItem
