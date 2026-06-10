@@ -240,6 +240,47 @@
     startingCharge: 0
 
 - type: entity
+  parent: SubstationBasic
+  id: AutomaticTransferSubstation
+  name: automatic transfer substation
+  description: A substation with a priority input and an emergency reserve input.
+  suffix: Automatic Transfer, 2.5MJ
+  components:
+  - type: AutomaticTransferPower
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      main:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+      emergency:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+      output:
+        !type:CableDeviceNode
+        nodeGroupID: MVPower
+  - type: BatteryCharger
+    voltage: High
+    node: main
+  - type: BatteryDischarger
+    voltage: Medium
+    node: output
+  - type: PowerMonitoringDevice
+    group: Substation
+    sourceNode: main
+    loadNode: output
+    collectionName: substation
+    sprite: Structures/Power/substation.rsi
+    state: substation_static
+  - type: Electrified
+    onHandInteract: false
+    onInteractUsing: false
+    onBump: false
+    requirePower: true
+    highVoltageNode: main
+    mediumVoltageNode: output
+
+- type: entity
   parent: BaseSubstationWall
   id: SubstationWallBasic
   suffix: Basic, 2MJ

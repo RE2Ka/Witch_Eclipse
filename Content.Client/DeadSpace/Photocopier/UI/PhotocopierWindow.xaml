@@ -40,8 +40,12 @@
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
                             <Label Text="{Loc 'photocopier-ui-mode-label'}" />
                             <Control MinWidth="14" />
-                            <Button Name="CopyModeButton" Text="{Loc 'photocopier-ui-mode-copy-button'}" HorizontalExpand="True" StyleClasses="OpenRight" />
-                            <Button Name="PrintModeButton" Text="{Loc 'photocopier-ui-mode-print-button'}" HorizontalExpand="True" StyleClasses="OpenLeft" />
+                            <Button Name="CopyModeButton" Text="{Loc 'photocopier-ui-mode-copy-button'}" HorizontalExpand="True" ToggleMode="True" StyleClasses="OpenRight" />
+                            <Button Name="PrintModeButton" Text="{Loc 'photocopier-ui-mode-print-button'}" HorizontalExpand="True" ToggleMode="True" StyleClasses="OpenLeft" />
+                        </BoxContainer>
+                        <Control MinSize="0 4" />
+                        <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                            <Label Name="ModeStatusLabel" HorizontalExpand="True" />
                         </BoxContainer>
                         <Control MinSize="0 4" />
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True">

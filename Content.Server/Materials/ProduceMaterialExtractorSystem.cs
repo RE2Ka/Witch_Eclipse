@@ -12,6 +12,7 @@ namespace Content.Server.Materials;
 public sealed class ProduceMaterialExtractorSystem : EntitySystem
 {
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly MaterialStorageSystem _materialStorage = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -28,6 +29,9 @@ public sealed class ProduceMaterialExtractorSystem : EntitySystem
             return;
 
         if (!this.IsPowered(ent, EntityManager))
+            return;
+
+        if (!args.CanReach || !_interaction.InRangeUnobstructed(args.User, ent.Owner, ent.Comp.InsertRange, popup: true))
             return;
 
         if (!TryComp<ProduceComponent>(args.Used, out var produce))
