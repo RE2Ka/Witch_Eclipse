@@ -1,3 +1,4 @@
+using Content.Shared.Backmen.Supermatter;
 using Content.Shared.Radiation.Systems;
 
 namespace Content.Shared.Radiation.Components;
@@ -6,7 +7,7 @@ namespace Content.Shared.Radiation.Components;
 ///     Irradiate all objects in range.
 /// </summary>
 [RegisterComponent]
-[Access(typeof(SharedRadiationSystem))]
+[Access(typeof(SharedRadiationSystem), typeof(SharedSupermatterSystem))]
 public sealed partial class RadiationSourceComponent : Component
 {
     /// <summary>

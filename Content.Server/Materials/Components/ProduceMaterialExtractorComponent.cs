@@ -1,4 +1,5 @@
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Interaction;
 using Content.Shared.Materials;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
@@ -28,4 +29,10 @@ public sealed partial class ProduceMaterialExtractorComponent : Component
 
     [DataField]
     public SoundSpecifier? ExtractSound = new SoundPathSpecifier("/Audio/Effects/waterswirl.ogg");
+
+    /// <summary>
+    /// Maximum range from the user to the extractor for inserting produce.
+    /// </summary>
+    [DataField]
+    public float InsertRange = SharedInteractionSystem.InteractionRange;
 }

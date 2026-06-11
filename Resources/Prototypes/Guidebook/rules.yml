@@ -6,7 +6,17 @@
   name: guide-entry-rules
   ruleEntry: true
   priority: 10
-  text: "/ServerInfo/Guidebook/ServerRules/DefaultRules.xml"
+  text: "/ServerInfo/Guidebook/Eclipse/ServerRules/DefaultRules.xml"
+  children:
+  - RuleEclipseC0
+  - RuleEclipseC1
+  - RuleEclipseC2
+  - RuleEclipseC3
+  - RuleEclipseC4
+  - RuleEclipseC5
+  - RuleEclipseC6
+  - RuleEclipseC7
+  - RuleEclipseC8
 
 - type: guideEntry
   id: CoreRuleset

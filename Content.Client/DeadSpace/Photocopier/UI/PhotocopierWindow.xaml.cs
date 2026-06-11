@@ -97,6 +97,7 @@ public sealed partial class PhotocopierWindow : FancyWindow
         {
             CopyModeButton.Pressed = true;
             PrintModeButton.Pressed = false;
+            ModeStatusLabel.Text = Loc.GetString("photocopier-ui-mode-selected-copy");
             if (!state.IsPaperInserted)
                 PrintButton.Disabled = true;
         }
@@ -104,10 +105,12 @@ public sealed partial class PhotocopierWindow : FancyWindow
         {
             CopyModeButton.Pressed = false;
             PrintModeButton.Pressed = true;
+            ModeStatusLabel.Text = Loc.GetString("photocopier-ui-mode-selected-print");
             if (state.ChosenForm == null)
                 PrintButton.Disabled = true;
         }
 
+        UpdateModeButtons(state.Mode);
         PopulateCategories();
         PopulateForms();
     }
@@ -230,6 +233,20 @@ public sealed partial class PhotocopierWindow : FancyWindow
     {
         button.StyleBoxOverride = Rounded(ConsoleBackgroundSoft, ConsoleBorderSoft, 3f);
         button.ModulateSelfOverride = ConsoleText;
+    }
+
+    private void UpdateModeButtons(PhotocopierMode mode)
+    {
+        SetModeButton(CopyModeButton, mode == PhotocopierMode.Copy);
+        SetModeButton(PrintModeButton, mode == PhotocopierMode.Print);
+    }
+
+    private static void SetModeButton(Button button, bool active)
+    {
+        button.StyleBoxOverride = active
+            ? Rounded(Color.FromHex("#5B3008F8"), ConsoleBorder, 3f)
+            : Rounded(ConsoleBackgroundSoft, ConsoleBorderSoft, 3f);
+        button.ModulateSelfOverride = active ? Color.White : ConsoleText;
     }
 
     private static void StyleConsoleButton(Button button)

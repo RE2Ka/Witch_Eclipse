@@ -3,13 +3,11 @@ using System.Numerics;
 using Content.Client.CharacterInfo;
 using Content.Client.Gameplay;
 using Content.Client.MainMenu.UI;
-using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Character.Controls;
 using Content.Client.UserInterface.Systems.Character.Windows;
 using Content.Client.UserInterface.Systems.Objectives.Controls;
-using Content.Shared.Eclipse.Progression;
 using Content.Shared.Input;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -36,7 +34,6 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
     [Dependency] private readonly IEntityManager _ent = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly JobRequirementsManager _jobRequirements = default!;
 
     [UISystemDependency] private readonly CharacterInfoSystem _characterInfo = default!;
     [UISystemDependency] private readonly SpriteSystem _sprite = default!;
@@ -137,7 +134,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             return;
         }
 
-        var (entity, job, objectives, briefing, entityName) = data;
+        var (entity, job, objectives, briefing, entityName, personalTasks) = data;
 
         _window.SpriteView.SetEntity(entity);
 
@@ -155,7 +152,18 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.ObjectivesLabel.Visible = false;
         _window.ObjectivesScroll.Visible = false;
         _window.RoleEmptyLabel.Visible = true;
-        BuildPersonalTasks(_window.PersonalTasks);
+
+        foreach (var task in personalTasks)
+        {
+            AddPersonalTask(
+                _window.PersonalTasks,
+                task.Title,
+                task.Description,
+                task.Reward,
+                task.Icon,
+                task.Highlighted,
+                task.Completed);
+        }
 
         foreach (var (groupId, conditions) in objectives)
         {
@@ -219,55 +227,23 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.RolePlaceholder.Visible = false;
     }
 
-    private void BuildPersonalTasks(BoxContainer container)
-    {
-        var totalExperience = Math.Max(0, (int) Math.Floor(_jobRequirements.FetchOverallPlaytime().TotalMinutes * 6));
-        totalExperience += Math.Max(0, (int) Math.Floor(
-            _jobRequirements.FetchPlaytimeTracker(EclipseProgression.BonusExperienceTracker).TotalMinutes *
-            EclipseProgression.BonusExperiencePerMinute));
-        var progress = EclipseProgression.CalculateProgress(totalExperience);
-
-        AddPersonalTask(container,
-            "Подготовить отчёт",
-            "Для командования или главы отдела.",
-            "Награда: 50 XP / 12 пыли",
-            "/Textures/Interface/VerbIcons/examine.svg.192dpi.png",
-            true);
-
-        AddPersonalTask(container,
-            "Помочь другому отделу",
-            "Выполнить полезное поручение вне своей должности.",
-            "Награда: 70 XP / 20 пыли",
-            "/Textures/Interface/VerbIcons/group.svg.192dpi.png",
-            false);
-
-        if (EclipseProgression.TryGetAttestationLevel(progress.Level, out var attestationLevel))
-        {
-            AddPersonalTask(container,
-                "Аттестационное поручение",
-                GetAttestationDescription(attestationLevel),
-                "Награда: допуск к следующему рангу",
-                "/Textures/Interface/examine-star.png",
-                true);
-        }
-    }
-
     private static void AddPersonalTask(
         BoxContainer container,
         string title,
         string description,
         string reward,
         string icon,
-        bool highlighted)
+        bool highlighted,
+        bool completed)
     {
         var panel = new PanelContainer
         {
-            MinSize = new Vector2(0f, 116f),
+            MinSize = new Vector2(0f, 126f),
             HorizontalExpand = true,
             PanelOverride = new StyleBoxFlat
             {
-                BackgroundColor = Color.FromHex(highlighted ? "#1A0D00D8" : "#070300D8"),
-                BorderColor = Color.FromHex(highlighted ? "#E6A11A99" : "#D5C9AE66"),
+                BackgroundColor = Color.FromHex(completed ? "#071A0DD8" : highlighted ? "#1A0D00D8" : "#070300D8"),
+                BorderColor = Color.FromHex(completed ? "#62D17A99" : highlighted ? "#E6A11A99" : "#D5C9AE66"),
                 BorderThickness = new Thickness(1),
             },
         };
@@ -285,7 +261,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             SetWidth = 8f,
             PanelOverride = new StyleBoxFlat
             {
-                BackgroundColor = Color.FromHex(highlighted ? "#E6A11A" : "#00000000"),
+                BackgroundColor = Color.FromHex(completed ? "#62D17A" : highlighted ? "#E6A11A" : "#00000000"),
             },
         });
 
@@ -303,7 +279,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             TexturePath = icon,
             SetSize = new Vector2(44f, 44f),
             Stretch = TextureRect.StretchMode.KeepAspectCentered,
-            ModulateSelfOverride = Color.FromHex(highlighted ? "#E6A11A" : "#D5C9AE"),
+            ModulateSelfOverride = Color.FromHex(completed ? "#62D17A" : highlighted ? "#E6A11A" : "#D5C9AE"),
         });
 
         var texts = new BoxContainer
@@ -314,37 +290,35 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         };
         row.AddChild(texts);
 
-        texts.AddChild(new Label
+        var titleMessage = new FormattedMessage();
+        titleMessage.PushColor(completed ? Color.FromHex("#62D17A") : highlighted ? Color.FromHex("#E6A11A") : Color.White);
+        titleMessage.AddText(completed ? $"{title} - выполнено" : title);
+        titleMessage.Pop();
+
+        var titleLabel = new RichTextLabel
         {
-            Text = title,
-            StyleIdentifier = highlighted
-                ? MainMenuControl.StyleIdentifierHeaderGold
-                : MainMenuControl.StyleIdentifierText,
-            ClipText = true,
-        });
-        texts.AddChild(new Label
+            HorizontalExpand = true,
+            MaxWidth = 380f,
+        };
+        titleLabel.SetMessage(titleMessage);
+        texts.AddChild(titleLabel);
+
+        var descriptionLabel = new RichTextLabel
         {
-            Text = description,
-            StyleIdentifier = MainMenuControl.StyleIdentifierSubtle,
-            ClipText = true,
-        });
+            HorizontalExpand = true,
+            MaxWidth = 380f,
+        };
+        descriptionLabel.SetMessage(FormattedMessage.FromUnformatted(description));
+        texts.AddChild(descriptionLabel);
+
         texts.AddChild(new Label
         {
             Text = reward,
-            StyleIdentifier = MainMenuControl.StyleIdentifierGoldSmall,
-            ClipText = true,
+            StyleIdentifier = completed
+                ? MainMenuControl.StyleIdentifierSubtle
+                : MainMenuControl.StyleIdentifierGoldSmall,
+            ClipText = false,
         });
-    }
-
-    private static string GetAttestationDescription(int attestationLevel)
-    {
-        return attestationLevel switch
-        {
-            <= 1 => "Вывезти документ или выполнить поручение отдела.",
-            <= 3 => "Доставить редкий предмет или выполнить сложное поручение.",
-            <= 6 => "Сохранить ценный актив или помочь нескольким отделам.",
-            _ => "Выполнить важное поручение командования.",
-        };
     }
 
     private void OnRoleTypeChanged(MindRoleTypeChangedEvent ev, EntitySessionEventArgs _)

@@ -1231,6 +1231,18 @@
 
 - type: entity
   parent: BasePlushie
+  id: PlushieKrolia
+  name: Плюшевая Кроля
+  description: Мягкая плюшевая игрушка с очень важным видом.
+  components:
+  - type: Sprite
+    sprite: Objects/Fun/Plushies/krolia.rsi
+    state: icon
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BasePlushie
   id: ToyIan
   name: ian toy
   description: Unable to eat, but just as fluffy as the real guy!
