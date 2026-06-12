@@ -9,7 +9,7 @@ ent-ProtoCoreSMES = proto core SMES
 ent-PinpointerProtoCoreActivationKey = activation key tracker
     .desc = A handheld tracker locked onto the activation key's emergency beacon.
 
-ash-legion-title = Ash Legion
+ash-legion-title = Ash Legionnaires
 ash-legion-description = The Ash Legion targets the station's built-in proto core instead of bringing a nuclear device.
 ash-legion-welcome =
     You are the Ash Legion.

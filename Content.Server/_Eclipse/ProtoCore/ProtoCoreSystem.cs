@@ -492,7 +492,7 @@ public sealed class ProtoCoreSystem : GameRuleSystem<AshLegionRuleComponent>
             return;
 
         core.WarningStageStarted = true;
-        _sound.DispatchStationEventMusic(uid, core.MeltdownMusic, StationEventMusicType.ProtoCore);
+        _sound.DispatchStationEventMusicGlobal(core.MeltdownMusic, StationEventMusicType.ProtoCore);
     }
 
     private void EnterCritical(EntityUid uid, ProtoCoreComponent core)
@@ -530,7 +530,7 @@ public sealed class ProtoCoreSystem : GameRuleSystem<AshLegionRuleComponent>
             return;
 
         core.Exploded = true;
-        _sound.StopStationEventMusic(uid, StationEventMusicType.ProtoCore);
+        _sound.StopStationEventMusicGlobal(StationEventMusicType.ProtoCore);
         core.RemainingTime = 0f;
         core.State = ProtoCoreState.Critical;
         UpdateConsoleUisForCore((uid, core));
@@ -552,7 +552,7 @@ public sealed class ProtoCoreSystem : GameRuleSystem<AshLegionRuleComponent>
         if (core.Comp.State is not (ProtoCoreState.Meltdown or ProtoCoreState.Critical))
             return;
 
-        _sound.StopStationEventMusic(core.Owner, StationEventMusicType.ProtoCore);
+        _sound.StopStationEventMusicGlobal(StationEventMusicType.ProtoCore);
         core.Comp.State = ProtoCoreState.Stabilized;
         core.Comp.RemainingTime = 0f;
         core.Comp.WarningStageStarted = false;

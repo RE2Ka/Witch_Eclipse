@@ -50,6 +50,12 @@ public sealed class ServerGlobalSoundSystem : SharedGlobalSoundSystem
         RaiseNetworkEvent(msg, filter);
     }
 
+    public void StopStationEventMusicGlobal(StationEventMusicType type)
+    {
+        var msg = new StopStationEventMusic(type);
+        RaiseNetworkEvent(msg, Filter.Broadcast());
+    }
+
     public void DispatchStationEventMusic(EntityUid source, SoundSpecifier sound, StationEventMusicType type)
     {
         DispatchStationEventMusic(source, _audio.ResolveSound(sound), type);
@@ -62,5 +68,17 @@ public sealed class ServerGlobalSoundSystem : SharedGlobalSoundSystem
 
         var filter = GetStationAndPvs(source);
         RaiseNetworkEvent(msg, filter);
+    }
+
+    public void DispatchStationEventMusicGlobal(SoundSpecifier sound, StationEventMusicType type)
+    {
+        DispatchStationEventMusicGlobal(_audio.ResolveSound(sound), type);
+    }
+
+    public void DispatchStationEventMusicGlobal(ResolvedSoundSpecifier specifier, StationEventMusicType type)
+    {
+        var audio = AudioParams.Default.WithVolume(-8);
+        var msg = new StationEventMusicEvent(specifier, type, audio);
+        RaiseNetworkEvent(msg, Filter.Broadcast());
     }
 }
