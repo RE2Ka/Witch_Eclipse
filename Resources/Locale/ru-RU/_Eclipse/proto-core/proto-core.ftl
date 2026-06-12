@@ -9,7 +9,7 @@ ent-ProtoCoreSMES = СМЭС Протоядра
 ent-PinpointerProtoCoreActivationKey = трекер ключа активации
     .desc = Ручной трекер, настроенный на аварийный маячок ключа активации.
 
-ash-legion-title = Легион Пепла
+ash-legion-title = Легионеры Пепла
 ash-legion-description = Легион Пепла использует встроенное Протоядро станции вместо доставки ядерной боеголовки.
 ash-legion-welcome =
     Вы - Легион Пепла.

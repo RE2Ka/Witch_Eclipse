@@ -28,7 +28,7 @@ public sealed partial class ProtoCoreComponent : Component
     public SoundSpecifier MeltdownMusic = new SoundCollectionSpecifier("NukeMusic");
 
     [DataField]
-    public float MeltdownMusicDuration = 109.6f;
+    public float MeltdownMusicDuration = 203f;
 
     [DataField]
     public ProtoId<ExplosionPrototype> ExplosionType = "Default";

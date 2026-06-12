@@ -1,4 +1,4 @@
-nukeops-title = Nuclear Operatives
+nukeops-title = Ash Legionnaires
 nukeops-description = Nuclear operatives have targeted the station. Try to keep them from arming and detonating the nuke by protecting the nuke disk!
 
 nukeops-welcome =

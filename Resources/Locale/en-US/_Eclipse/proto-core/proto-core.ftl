@@ -9,7 +9,7 @@ ent-ProtoCoreSMES = proto core SMES
 ent-PinpointerProtoCoreActivationKey = activation key tracker
     .desc = A handheld tracker locked onto the activation key's emergency beacon.
 
-ash-legion-title = Ash Legion
+ash-legion-title = Ash Legionnaires
 ash-legion-description = The Ash Legion targets the station's built-in proto core instead of bringing a nuclear device.
 ash-legion-welcome =
     You are the Ash Legion.
@@ -64,3 +64,9 @@ ash-legion-roundend-critical = The proto core reached a critical state.
 ash-legion-roundend-stabilized = The proto core was stabilized.
 ash-legion-roundend-started = The Ash Legion activated the proto core meltdown procedure.
 steal-target-groups-proto-core-activation-key = activation key
+
+cmd-protocorearm-desc = Start the proto core meltdown timer. You can set timer directly. Uid is optional.
+cmd-protocorearm-help = protocorearm <timer> <uid>
+cmd-protocorearm-not-found = Can't find any entity with a ProtoCoreComponent.
+cmd-protocorearm-1-help = Time (in seconds)
+cmd-protocorearm-2-help = Proto core
